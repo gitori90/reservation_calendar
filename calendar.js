@@ -42,17 +42,18 @@ function buildFirstWeek(firstMonthDay, monthNumber)
   }
 }
 
-function finishLastWeek(numberDaysLeft)
+function finishLastWeek(numberDaysLeft, weekNumber)
 {
   for (let i = 0 ; i < numberDaysLeft ; i++)
   {
-    $(".week4").append("<td class='day nextMonth'>" + (i + 1) + "</td>");
+    $(".week" + weekNumber).append("<td class='day nextMonth'>" + (i + 1) + "</td>");
   }
 }
 
 
 function buildMonth(monthNumber)
 {
+  monthNumber = monthNumber % 12;
   var lastMonthDay = monthLastDay(monthNumber);
   var day = 1;
   let tempDate = new Date();
@@ -62,7 +63,7 @@ function buildMonth(monthNumber)
 
   $(".month-label").text(monthNames[monthNumber] + " " + tempDate.getFullYear());
 
-  for(let j = 0 ; j < 5 ; j++)
+  for(let j = 0 ; j < 7 ; j++)
   {
     $(".calendar").append("<tr class='week " + "week" +  j + "'></tr>");
     if(j === 0)
@@ -83,16 +84,15 @@ function buildMonth(monthNumber)
       if (day > lastMonthDay)
       {
         var numberDaysLeft = 6 - i;
-        j = 5; /* to break the outer loop */
-        finishLastWeek(numberDaysLeft);
+        finishLastWeek(numberDaysLeft, j);
+        j = 9; /* to break the outer loop */
         break;
       }
     }
   }
-
 }
 
-buildMonth(5);
+buildMonth(7);
 
 
 

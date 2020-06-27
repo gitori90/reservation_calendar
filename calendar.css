@@ -1,24 +1,24 @@
-th{
-  border: solid 1px black;
+.calendarHeader{
+  /* border: solid 1px black; */
   border-radius: 15%;
 }
 
 .month-label{
   text-align: center;
-  background-color: #fbc687;
-  /* border-top-left-radius: 50%;
-  border-top-right-radius: 50%; */
+  background-color: #ffcb74;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
   border: solid 3px black;
   border-bottom: 0;
 }
 .calendar{
-  background-color: #fbc687;
+  background-color: #4f8a8b;
   text-align: center;
   font-size: 2rem;
   border: solid 5px black;
   padding: 1rem 2rem;
-  border-bottom-left-radius: 15%;
-  border-bottom-right-radius: 15%;
+  /* border-bottom-left-radius: 15%;
+  border-bottom-right-radius: 15%; */
 }
 
 .prevMonth, .nextMonth{
@@ -27,20 +27,20 @@ th{
 
 
 .header{
-  background-color: #ea907a;
+  background-color: #dbc6eb;
 }
 .week0, .week2, .week4{
-  background-color: #f4f7c5;
+  background-color: #efee9d;
 }
-.week1, .week3{
-  background-color: #aacdbe;
+.week1, .week3, .week5{
+  background-color: #d1eaa3;
 }
 
 .day{
   width: 5rem;
   height: 2rem;
   border-radius: 20%;
-  border: solid 1px black;
+  /* border: solid 1px black; */
 }
 .day:hover{
   background-color: #32e0c4;
