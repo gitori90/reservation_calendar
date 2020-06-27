@@ -37,7 +37,7 @@ function buildFirstWeek(firstMonthDay, monthNumber)
   let lastDays = tempDate.getDate() + 1;
   for (let l = 0 ; l < firstMonthDay ; l++)
   {
-    $(".week0").append("<td class='week prevMonth'>" + lastDays + "</td>");
+    $(".week0").append("<td class='day prevMonth'>" + lastDays + "</td>");
     lastDays++;
   }
 }
@@ -46,7 +46,7 @@ function finishLastWeek(numberDaysLeft)
 {
   for (let i = 0 ; i < numberDaysLeft ; i++)
   {
-    $(".week4").append("<td class='week nextMonth'>" + (i + 1) + "</td>");
+    $(".week4").append("<td class='day nextMonth'>" + (i + 1) + "</td>");
   }
 }
 
@@ -60,9 +60,10 @@ function buildMonth(monthNumber)
   tempDate.setDate(1);
   var firstMonthDay = tempDate.getDay();
 
+  $(".month-label").text(monthNames[monthNumber] + " " + tempDate.getFullYear());
+
   for(let j = 0 ; j < 5 ; j++)
   {
-    console.log(j);
     $(".calendar").append("<tr class='week " + "week" +  j + "'></tr>");
     if(j === 0)
     {
@@ -71,7 +72,7 @@ function buildMonth(monthNumber)
 
     for(let i = 0 ; i < 7 ; i++)
     {
-      $(".week" +  j).append("<td class='week'>" + day + "</td>");
+      $(".week" +  j).append("<td class='day'><b>" + day + "</b></td>");
       day++;
 
       if ($(".week" + j)[0].cells.length >= 7)
