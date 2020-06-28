@@ -10,6 +10,28 @@ const monthNames = ['January', 'February', 'March', 'April',
 const monthNamesShort = ['Jan', 'Feb', 'Mar',
 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+const today = new Date();
+var selectedMonth = today.getMonth();
+
+const originalCalendarHtml = $(".calendar-wrapper").html();
+
+function assignArrowButtons(){
+
+  $(".top-left-arrow").on("click", function(){
+    $(".calendar-wrapper").html(originalCalendarHtml);
+    selectedMonth--;
+    buildMonth(selectedMonth);
+  });
+
+  $(".top-right-arrow").on("click", function(){
+    $(".calendar-wrapper").html(originalCalendarHtml);
+    selectedMonth++;
+    buildMonth(selectedMonth);
+  });
+
+}
+
+
 
 function monthLastDay(monthNumber)
 {
@@ -53,6 +75,7 @@ function finishLastWeek(numberDaysLeft, weekNumber)
 
 function buildMonth(monthNumber)
 {
+  assignArrowButtons();
   monthNumber = monthNumber % 12;
   var lastMonthDay = monthLastDay(monthNumber);
   var day = 1;
@@ -61,6 +84,8 @@ function buildMonth(monthNumber)
   tempDate.setDate(1);
   var firstMonthDay = tempDate.getDay();
 
+
+  tempDate.setMonth(selectedMonth);
   $(".month-label").text(monthNames[monthNumber] + " " + tempDate.getFullYear());
 
   for(let j = 0 ; j < 7 ; j++)
@@ -92,17 +117,4 @@ function buildMonth(monthNumber)
   }
 }
 
-buildMonth(7);
-
-
-
-
-function buildCalendar()
-{
-  const today = new Date();
-  let dayNow = dayNamesShort[today.getDay()];
-  let monthNow = monthNames[today.getMonth()];
-  let yearNow = today.getFullYear();
-
-
-}
+buildMonth(selectedMonth);
