@@ -20,6 +20,10 @@ function assignArrowButtons(){
   $(".top-left-arrow").on("click", function(){
     $(".calendar-wrapper").html(originalCalendarHtml);
     selectedMonth--;
+    if (selectedMonth < today.getMonth() - 1)
+    {
+      selectedMonth = today.getMonth() - 1;
+    }
     buildMonth(selectedMonth);
   });
 
@@ -33,11 +37,12 @@ function assignArrowButtons(){
 
 
 
-function monthLastDay(monthNumber)
+function monthLastDay(selectedMonth)
 {
   let tempDate = new Date();
-  tempDate.setMonth(monthNumber);
+  tempDate.setMonth(selectedMonth);
   var j = 28;
+  var monthNumber = selectedMonth % 12;
 
   tempDate.setDate(j)
   while (tempDate.getMonth() === monthNumber)
@@ -50,11 +55,15 @@ function monthLastDay(monthNumber)
 }
 
 
-function buildFirstWeek(firstMonthDay, monthNumber)
+function buildFirstWeek(selectedMonth)
 {
   let tempDate = new Date();
-  tempDate.setMonth(monthNumber);
+  tempDate.setMonth(selectedMonth);
+  tempDate.setDate(1);
+  var firstMonthDay = tempDate.getDay();
+
   tempDate.setDate(-firstMonthDay);
+  console.log(selectedMonth);
 
   let lastDays = tempDate.getDate() + 1;
   for (let l = 0 ; l < firstMonthDay ; l++)
@@ -77,13 +86,12 @@ function buildMonth(monthNumber)
 {
   assignArrowButtons();
   monthNumber = monthNumber % 12;
-  var lastMonthDay = monthLastDay(monthNumber);
+  var lastMonthDay = monthLastDay(selectedMonth);
   var day = 1;
   let tempDate = new Date();
   tempDate.setMonth(monthNumber);
   tempDate.setDate(1);
   var firstMonthDay = tempDate.getDay();
-
 
   tempDate.setMonth(selectedMonth);
   $(".month-label").text(monthNames[monthNumber] + " " + tempDate.getFullYear());
@@ -93,7 +101,7 @@ function buildMonth(monthNumber)
     $(".calendar").append("<tr class='week " + "week" +  j + "'></tr>");
     if(j === 0)
     {
-      buildFirstWeek(firstMonthDay, monthNumber);
+      buildFirstWeek(selectedMonth);
     }
 
     for(let i = 0 ; i < 7 ; i++)
