@@ -63,7 +63,6 @@ function buildFirstWeek(selectedMonth)
   var firstMonthDay = tempDate.getDay();
 
   tempDate.setDate(-firstMonthDay);
-  console.log(selectedMonth);
 
   let lastDays = tempDate.getDate() + 1;
   for (let l = 0 ; l < firstMonthDay ; l++)
