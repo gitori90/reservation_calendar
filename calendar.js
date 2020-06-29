@@ -17,6 +17,7 @@ var reservedDays = [];
 
 const originalCalendarHtml = $(".calendar-wrapper").html();
 
+
 function formatDateDayMonth(num)
 {
   if (num < 10)
@@ -58,9 +59,9 @@ function assignArrowButtons()
   $(".top-left-arrow").on("click", function(){
     $(".calendar-wrapper").html(originalCalendarHtml);
     selectedMonth--;
-    if (selectedMonth < today.getMonth() - 1)
+    if (selectedMonth < today.getMonth())
     {
-      selectedMonth = today.getMonth() - 1;
+      selectedMonth = today.getMonth();
     }
     buildMonth(selectedMonth);
   });
@@ -74,9 +75,10 @@ function assignArrowButtons()
 
 
 
-function monthLastDay(selectedMonth)
+function monthLastDay()
 {
   let tempDate = new Date();
+  tempDate.setDate(1);
   tempDate.setMonth(selectedMonth);
   var j = 28;
   var monthNumber = selectedMonth % 12;
@@ -92,11 +94,11 @@ function monthLastDay(selectedMonth)
 }
 
 
-function buildFirstWeek(selectedMonth)
+function buildFirstWeek()
 {
   let tempDate = new Date();
-  tempDate.setMonth(selectedMonth);
   tempDate.setDate(1);
+  tempDate.setMonth(selectedMonth);
   var firstMonthDay = tempDate.getDay();
 
   tempDate.setDate(-firstMonthDay);
@@ -107,11 +109,11 @@ function buildFirstWeek(selectedMonth)
 
   for (let l = 0 ; l < firstMonthDay ; l++)
   {
-    let day = formatDateDayMonth(lastDays)
-    let month = formatDateDayMonth(monthNumber + 1);
+    let dayStr = formatDateDayMonth(lastDays)
+    let monthStr = formatDateDayMonth(monthNumber + 1);
 
     $(".week0").append("<td class='day prevMonth' id="
-    + day + month + yearNumber.toString() + ">" + lastDays + "</td>");
+    + dayStr + monthStr + yearNumber.toString() + ">" + lastDays + "</td>");
     lastDays++;
   }
 }
@@ -119,6 +121,7 @@ function buildFirstWeek(selectedMonth)
 function finishLastWeek(numberDaysLeft, weekNumber)
 {
   let tempDate = new Date();
+  tempDate.setDate(1);
   tempDate.setMonth(selectedMonth + 1);
   let monthNumber = tempDate.getMonth();
   let yearNumber = tempDate.getFullYear();
@@ -137,11 +140,12 @@ function buildMonth(monthNumber)
 {
   assignArrowButtons();
   monthNumber = monthNumber % 12;
-  var lastMonthDay = monthLastDay(selectedMonth);
+  var lastMonthDay = monthLastDay();
   var day = 1;
   let tempDate = new Date();
-  tempDate.setMonth(monthNumber);
   tempDate.setDate(1);
+  tempDate.setMonth(monthNumber);
+
   var firstMonthDay = tempDate.getDay();
 
   tempDate.setMonth(selectedMonth);
@@ -154,7 +158,7 @@ function buildMonth(monthNumber)
     $(".calendar").append("<tr class='week " + "week" +  j + "'></tr>");
     if(j === 0)
     {
-      buildFirstWeek(selectedMonth);
+      buildFirstWeek();
     }
 
     for(let i = 0 ; i < 7 ; i++)
@@ -163,11 +167,6 @@ function buildMonth(monthNumber)
       + "id=" + formatDateDayMonth(day) + formatDateDayMonth(monthNumber + 1) + selectedYear.toString() + "><b>" + day + "</b></td>");
       day++;
 
-      if ($(".week" + j)[0].cells.length >= 7)
-      {
-        break;
-      }
-
       if (day > lastMonthDay)
       {
         var numberDaysLeft = 6 - i;
@@ -175,6 +174,13 @@ function buildMonth(monthNumber)
         j = 9; /* to break the outer loop */
         break;
       }
+
+      if ($(".week" + j)[0].cells.length >= 7)
+      {
+        break;
+      }
+
+
     }
   }
 
@@ -187,7 +193,6 @@ function buildMonth(monthNumber)
   function(){
     $(this).toggleClass("day-chosen");
     toggleReservedDay(this.id)
-    console.log(reservedDays);
   });
 }
 
