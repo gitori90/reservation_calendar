@@ -13,6 +13,7 @@ const monthNamesShort = ['Jan', 'Feb', 'Mar',
 const today = new Date();
 var selectedMonth = today.getMonth();
 var selectedYear = today.getFullYear();
+var reservedDays = [];
 
 const originalCalendarHtml = $(".calendar-wrapper").html();
 
@@ -25,6 +26,32 @@ function formatDateDayMonth(num)
 
   return num.toString();
 }
+
+function removeElementFromArray(element, array)
+{
+  let matchIndex = array.indexOf(element);
+  if (matchIndex === -1){}
+  else
+  {
+    array.splice(matchIndex, 1);
+  }
+
+  return array
+}
+
+function toggleReservedDay(dateID)
+{
+  if (reservedDays.includes(dateID))
+  {
+    reservedDays = removeElementFromArray(dateID, reservedDays);
+  }
+  else
+  {
+    reservedDays.push(dateID);
+  }
+}
+
+
 
 function assignArrowButtons()
 {
@@ -74,24 +101,36 @@ function buildFirstWeek(selectedMonth)
 
   tempDate.setDate(-firstMonthDay);
 
+  let monthNumber = tempDate.getMonth();
+  let yearNumber = tempDate.getFullYear();
   let lastDays = tempDate.getDate() + 1;
+
   for (let l = 0 ; l < firstMonthDay ; l++)
   {
-    $(".week0").append("<td class='day prevMonth'>" + lastDays + "</td>");
+    let day = formatDateDayMonth(lastDays)
+    let month = formatDateDayMonth(monthNumber + 1);
+
+    $(".week0").append("<td class='day prevMonth' id="
+    + day + month + yearNumber.toString() + ">" + lastDays + "</td>");
     lastDays++;
   }
 }
 
 function finishLastWeek(numberDaysLeft, weekNumber)
 {
+  let tempDate = new Date();
+  tempDate.setMonth(selectedMonth + 1);
+  let monthNumber = tempDate.getMonth();
+  let yearNumber = tempDate.getFullYear();
+
   for (let i = 0 ; i < numberDaysLeft ; i++)
   {
-    $(".week" + weekNumber).append("<td class='day nextMonth'>" + (i + 1) + "</td>");
-  }
-}
+    let day = formatDateDayMonth(i + 1);
+    let month = formatDateDayMonth(monthNumber + 1);
 
-function addDaysToggle(){
-  $(".day-chosen").toggle();
+    $(".week" + weekNumber).append("<td class='day nextMonth' id="
+    + day + month + yearNumber.toString() + ">" + (i + 1) + "</td>");
+  }
 }
 
 function buildMonth(monthNumber)
@@ -139,7 +178,17 @@ function buildMonth(monthNumber)
     }
   }
 
-  $(".day-available").on("click", function(){$(this).toggleClass("day-chosen");});
+  for(let i = 0 ; i < reservedDays.length ; i++)
+  {
+    $("#" + reservedDays[i]).addClass("day-chosen");
+  }
+
+  $(".day-available").on("click",
+  function(){
+    $(this).toggleClass("day-chosen");
+    toggleReservedDay(this.id)
+    console.log(reservedDays);
+  });
 }
 
 buildMonth(selectedMonth);
