@@ -84,7 +84,7 @@
 
 .day{
   color: #30475e;
-  border-radius: 20%;
+  border-radius: 1rem;
 }
 .day-available:hover{
   background-color: #32e0c4;
