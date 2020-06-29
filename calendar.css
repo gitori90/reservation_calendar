@@ -59,8 +59,22 @@
   background-color: #eaac9d;
 }
 .calendarHeader{
-
+  width: 80%
 }
+
+.calendar-submit-btn{
+  width: 80%;
+  padding: 0.5rem 0;
+  font-size: 2rem;
+  background-color: #32e0c4;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+}
+/* .calendar-submit-btn:hover{
+  opacity: 1;
+} */
+
 .week0, .week2, .week4{
   background-color: #f0f0f0;
 }
@@ -70,13 +84,13 @@
 
 .day{
   color: #30475e;
-  /* width: 5rem;
-  height: 2rem; */
   border-radius: 20%;
-  /* padding: 0.5rem 3rem; */
-  /* border: solid 1px black; */
 }
-.day:hover{
+.day-available:hover{
   background-color: #32e0c4;
   cursor: pointer;
+}
+.day-chosen, .calendar-submit-btn:hover{
+  background-color: #649d66!important;
+  color: white;
 }

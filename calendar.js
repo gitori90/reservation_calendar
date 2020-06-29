@@ -12,11 +12,22 @@ const monthNamesShort = ['Jan', 'Feb', 'Mar',
 
 const today = new Date();
 var selectedMonth = today.getMonth();
+var selectedYear = today.getFullYear();
 
 const originalCalendarHtml = $(".calendar-wrapper").html();
 
-function assignArrowButtons(){
+function formatDateDayMonth(num)
+{
+  if (num < 10)
+  {
+    num = "0" + num.toString();
+  }
 
+  return num.toString();
+}
+
+function assignArrowButtons()
+{
   $(".top-left-arrow").on("click", function(){
     $(".calendar-wrapper").html(originalCalendarHtml);
     selectedMonth--;
@@ -32,7 +43,6 @@ function assignArrowButtons(){
     selectedMonth++;
     buildMonth(selectedMonth);
   });
-
 }
 
 
@@ -80,6 +90,9 @@ function finishLastWeek(numberDaysLeft, weekNumber)
   }
 }
 
+function addDaysToggle(){
+  $(".day-chosen").toggle();
+}
 
 function buildMonth(monthNumber)
 {
@@ -93,7 +106,9 @@ function buildMonth(monthNumber)
   var firstMonthDay = tempDate.getDay();
 
   tempDate.setMonth(selectedMonth);
-  $(".month-label").text(monthNames[monthNumber] + " " + tempDate.getFullYear());
+  selectedYear = tempDate.getFullYear();
+  $(".month-label").text(monthNames[monthNumber] + " " + selectedYear);
+
 
   for(let j = 0 ; j < 7 ; j++)
   {
@@ -105,7 +120,8 @@ function buildMonth(monthNumber)
 
     for(let i = 0 ; i < 7 ; i++)
     {
-      $(".week" +  j).append("<td class='day'><b>" + day + "</b></td>");
+      $(".week" +  j).append("<td class='day day-available' "
+      + "id=" + formatDateDayMonth(day) + formatDateDayMonth(monthNumber + 1) + selectedYear.toString() + "><b>" + day + "</b></td>");
       day++;
 
       if ($(".week" + j)[0].cells.length >= 7)
@@ -122,6 +138,8 @@ function buildMonth(monthNumber)
       }
     }
   }
+
+  $(".day-available").on("click", function(){$(this).toggleClass("day-chosen");});
 }
 
 buildMonth(selectedMonth);
